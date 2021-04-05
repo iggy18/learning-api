@@ -6,15 +6,25 @@ class UserManager(BaseUserManager):
         """
         Creates and saves a new user.
         """
-        #pass email first then pass anything extra we add
-        user = self.model(email=email, **extra_fields)
+        if not email:
+            raise ValueError("Email address is required")
+
+        #pass email first then pass anything extra we add normalize makes email lowercase
+        user = self.model(email=self.normalize_email(email), **extra_fields)
         #always use SET password to store the password so it's encrypted
         user.set_password(password)
-
         #saves the user
         user.save(using=self._db)
 
         #returns the user
+        return user
+
+    def create_superuser(self, email, password):
+        user = self.create_user(email, password)
+        user.is_staff = True
+        user.is_superuser = True
+        user.save(using=self._db)
+
         return user
 
 class User(AbstractBaseUser, PermissionsMixin):
