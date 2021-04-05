@@ -6,6 +6,8 @@ authors = ["Seth Mcfeeters <seth.mcfeeters@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
+Django = "^3.1.7"
+djangorestframework = "^3.12.4"
 
 [tool.poetry.dev-dependencies]
 
